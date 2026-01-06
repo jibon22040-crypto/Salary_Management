@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<style>
+table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+
+tr:hover {background-color: #ddd;}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+
+<h2>Employee Salary Report</h2>
+
+<a href="{% url 'employee_create' %}">Add Employee</a>
+
+<table border="1">
+<tr>
+    <th>Name</th>
+    <th>Designation</th>
+    <th>Basic</th>
+    <th>HRA</th>
+    <th>DA</th>
+    <th>TA</th>
+    <th>Bonus</th>
+    <th>Overtime</th>
+    <th>Gross Salary</th>
+    <th>Picture</th>
+    <th>Action</th>
+</tr>
+
+{% for e in employees %}
+<tr>
+    <td>{{ e.Name }}</td>
+    <td>{{ e.Designation }}</td>
+    <td>{{ e.Basic_salary }}</td>
+    <td>{{ e.HAR_percent }}</td>
+    <td>{{ e.DA_percent }}</td>
+    <td>{{ e.TA_percent }}</td>
+    <td>{{ e.Bonus }}</td>
+    <td>{{ e.Overtime_hours }}</td>
+    <td><b>{{ e.gross_salary }}</b></td>
+    <td><b>
+    {% if e.Picture %}
+    <img src="{{e.Picture.url}}" height="50" width="50" alt="">
+    {% else %}
+    <img src="/Default_Image/Default.jpg" height="50" width="50" alt="">
+    {% endif %}
+        </td>
+    <td>
+        <a href="{% url 'employee_update' e.id %}">Edit</a>
+        <a href="{% url 'employee_delete' e.id %}">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock body %}
